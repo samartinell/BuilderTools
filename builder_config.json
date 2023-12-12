@@ -1,0 +1,27 @@
+{
+  "version-control":[
+    {"version":"1.0"},
+    {"no-update":"false"}
+  ],
+    "items": [
+      {"item_name": "Google Drive", "item_link": "https://dl.google.com/drive-file-stream/GoogleDriveSetup.exe"},
+      {"item_name": "Firefox", "item_link": "https://www.mozilla.org/en-US/firefox/download/thanks/"},
+      {"item_name": "Zoom", "item_link": "https://zoom.us/client/5.16.10.26186/ZoomInstallerFull.exe?archType=x64"},
+      {"item_name": "Notepad++", "item_link": "https://notepad-plus-plus.org/downloads/"},
+      {"item_name": "Google Earth Pro", "item_link": "https://www.google.com/earth/about/versions/download-thank-you/?usagestats=0"},
+      {"item_name": "Spotify", "item_link":"https://download.scdn.co/SpotifySetup.exe"},
+      {"item_name": "Slack", "item_link":"https://slack.com/api/desktop.latestRelease?arch=x64&variant=exe&redirect=true"},
+      {"item_name": "Acrobat Pro (opens gDrive link)", "item_link":"https://drive.google.com/u/0/uc?id=1OZmYhCVTJA_1UuhgjIKzXqjJtdWlUaR9&export=download"},
+      {"item_name": "Grammarly", "item_link": "https://download-windows.grammarly.com/new/w/GrammarlyInstaller.exe?browserName=chrome&containerId=mzrl8grebg5f0eo2&state=0Yk0i"},
+      {"item_name": "Outlook GSuit", "item_link":"https://dl.google.com/dl/google-apps-sync/x64/enterprise_gsync.msi"}
+    ],
+    "scripts":[
+      {"script_name": "Activate Windows", "script": "slmgr.vbs -ipk WW4NT-K6R4X-64JDG-HJM6Y-G3BQB\nslmgr.vbs -ato"},
+      {"script_name": "Create hg user", "script": "net user hg CHANGEPW /ADD\nnet localgroup administrators hg /add\bWMIC USERACCOUNT WHERE \"Name='hg'\" SET PasswordExpires=FALSE"},
+      {"script_name": "PC Admin Password Change", "script": "net user \"PC Admin\" CHANGEPW\nWMIC USERACCOUNT WHERE \"Name='PC Admin'\" SET PasswordExpires=FALSE"},
+      {"script_name": "Hide HG user", "script": "echo Windows Registry Editor Version 5.00 > hideHGuser.reg\necho. >> hideHGuser.reg\necho [HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\SpecialAccounts\\UserList] >> hideHGuser.reg\necho \"username\"=dword:00000000 >> hideHGuser.reg\nhideHGuser.reg\ndel hideHGuser.reg"},
+      {"script_name": "Disable Microsoft Sign-in", "script": "echo Windows Registry Editor Version 5.00 > MSsignIN.reg\necho. >> MSsignIN.reg\necho [HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System] >> MSsignIN.reg\necho \"NoConnectedUser\"=dword:00000003 >> MSsignIN.reg\nMSsignIN.reg\ndel MSsignIN.reg"},
+      {"script_name":"Disable Hello", "script":"reg add \"HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\PassportForWork\" /v Enabled /t REG_DWORD /d 0 /f\nreg add \"HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\PassportForWork\" /v DisablePostLogonProvisioning /t REG_DWORD /d 0 /f"}
+    ]
+  }
+  
