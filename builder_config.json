@@ -82,7 +82,7 @@
         "app_instructions":"$URL = \"https://www.dropbox.com/download?os=win&plat=win&ref=edshelf&rtoken=SaaETcEFebSH6Qk%2BeA44TpJiWvDJbOo1aGRSYpaMGjQ%3D\"\n$DOWNLOAD_DIR = (\"C:\\users\\\"+$Env:UserName+\"\\Downloads\\\")\n$OUTPUT_FILE = ($DOWNLOAD_DIR+\"dropboxInstaller.exe\")\n(new-object System.Net.WebClient).DownloadFile($URL, $OUTPUT_FILE)\ncmd.exe /c $OUTPUT_FILE /s\nRemove-Item $OUTPUT_FILE"
       },
       {
-        "app_name":"PowerChute Serial Shutdown",
+        "app_name":"PowerChute SS",
         "app_instructions":"$URL = \"https://download.schneider-electric.com/files?p_enDocType=Software+-+Release&p_File_Name=pcss.zip&p_Doc_Ref=SPD_PCSS10_WW_EN\"\n$DOWNLOAD_DIR = (\"C:\\users\\\"+$Env:UserName+\"\\Downloads\\\")\n$OUTPUT_FILE = ($DOWNLOAD_DIR+\"pcss.zip\")\n(new-object System.Net.WebClient).DownloadFile($URL, $OUTPUT_FILE)\nExpand-Archive -Path $OUTPUT_FILE -DestinationPath $DOWNLOAD_DIR -Force\n$INI_PATH = ($DOWNLOAD_DIR+\"silentInstall.ini\")\n$INI_CONTENT = Get-Content $INI_PATH\n$INI_CONTENT = $INI_CONTENT -replace \"Username=\", \"Username=hgscript\"\n$INI_CONTENT = $INI_CONTENT -replace \"Password=\", \"Password=hg4dmIn@ak\"\nSet-Content $INI_PATH $INI_CONTENT\n$PCSS_SETUP = ($DOWNLOAD_DIR+\"pcsssetup.exe\")\ncmd.exe /c $PCSS_SETUP /S /F\nrm $OUTPUT_FILE\nrm $INI_PATH\nrm $PCSS_SETUP"
       }
       ]
