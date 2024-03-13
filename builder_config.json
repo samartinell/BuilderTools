@@ -1,27 +1,90 @@
 {
-  "version-control":[
-    {"version":"1.0"},
-    {"no-update":"false"}
-  ],
-    "items": [
-      {"item_name": "Google Drive", "item_link": "https://dl.google.com/drive-file-stream/GoogleDriveSetup.exe"},
-      {"item_name": "Firefox", "item_link": "https://www.mozilla.org/en-US/firefox/download/thanks/"},
-      {"item_name": "Zoom", "item_link": "https://zoom.us/client/5.16.10.26186/ZoomInstallerFull.exe?archType=x64"},
-      {"item_name": "Notepad++", "item_link": "https://notepad-plus-plus.org/downloads/"},
-      {"item_name": "Google Earth Pro", "item_link": "https://www.google.com/earth/about/versions/download-thank-you/?usagestats=0"},
-      {"item_name": "Spotify", "item_link":"https://download.scdn.co/SpotifySetup.exe"},
-      {"item_name": "Slack", "item_link":"https://slack.com/api/desktop.latestRelease?arch=x64&variant=exe&redirect=true"},
-      {"item_name": "Acrobat Pro (opens gDrive link)", "item_link":"https://drive.google.com/u/0/uc?id=1OZmYhCVTJA_1UuhgjIKzXqjJtdWlUaR9&export=download"},
-      {"item_name": "Grammarly", "item_link": "https://download-windows.grammarly.com/new/w/GrammarlyInstaller.exe?browserName=chrome&containerId=mzrl8grebg5f0eo2&state=0Yk0i"},
-      {"item_name": "Outlook GSuit", "item_link":"https://dl.google.com/dl/google-apps-sync/x64/enterprise_gsync.msi"}
+  "version-control":
+    {"version":"v1.5", "date": "3/12/2024"},
+    "downloads":[
+      {"download_name": "Notepad++ v8.6", "download_link": "https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v8.6/npp.8.6.Installer.x64.exe"},
+      {"download_name": "Google Earth Pro", "download_link": "https://www.google.com/earth/about/versions/download-thank-you/?usagestats=0"},
+      {"download_name": "Spotify", "download_link":"https://download.scdn.co/SpotifySetup.exe"},
+      {"download_name": "Acrobat Pro (opens gDrive link)", "download_link":"https://drive.google.com/u/0/uc?id=1OZmYhCVTJA_1UuhgjIKzXqjJtdWlUaR9&export=download"},
+      {"download_name": "APC PowerChute Serial Shutdown", "download_link":"https://download.schneider-electric.com/files?p_enDocType=Software+-+Release&p_File_Name=pcss.zip&p_Doc_Ref=SPD_PCSS10_WW_EN"}
     ],
     "scripts":[
       {"script_name": "Activate Windows", "script": "slmgr.vbs -ipk WW4NT-K6R4X-64JDG-HJM6Y-G3BQB\nslmgr.vbs -ato"},
-      {"script_name": "Create hg user", "script": "net user hg CHANGEPW /ADD\nnet localgroup administrators hg /add\bWMIC USERACCOUNT WHERE \"Name='hg'\" SET PasswordExpires=FALSE"},
+      {"script_name": "Create hg user", "script": "net user hg CHANGEPW /ADD\nnet localgroup administrators hg /add\nWMIC USERACCOUNT WHERE \"Name='hg'\" SET PasswordExpires=FALSE"},
       {"script_name": "PC Admin Password Change", "script": "net user \"PC Admin\" CHANGEPW\nWMIC USERACCOUNT WHERE \"Name='PC Admin'\" SET PasswordExpires=FALSE"},
-      {"script_name": "Hide HG user", "script": "echo Windows Registry Editor Version 5.00 > hideHGuser.reg\necho. >> hideHGuser.reg\necho [HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\SpecialAccounts\\UserList] >> hideHGuser.reg\necho \"username\"=dword:00000000 >> hideHGuser.reg\nhideHGuser.reg\ndel hideHGuser.reg"},
+      {"script_name": "Hide HG user", "script": "echo Windows Registry Editor Version 5.00 > hideHGuser.reg\necho. >> hideHGuser.reg\necho [HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\SpecialAccounts\\UserList] >> hideHGuser.reg\necho \"hg\"=dword:00000000 >> hideHGuser.reg\nhideHGuser.reg\ndel hideHGuser.reg"},
       {"script_name": "Disable Microsoft Sign-in", "script": "echo Windows Registry Editor Version 5.00 > MSsignIN.reg\necho. >> MSsignIN.reg\necho [HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System] >> MSsignIN.reg\necho \"NoConnectedUser\"=dword:00000003 >> MSsignIN.reg\nMSsignIN.reg\ndel MSsignIN.reg"},
       {"script_name":"Disable Hello", "script":"reg add \"HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\PassportForWork\" /v Enabled /t REG_DWORD /d 0 /f\nreg add \"HKEY_LOCAL_MACHINE\\SOFTWARE\\Policies\\Microsoft\\PassportForWork\" /v DisablePostLogonProvisioning /t REG_DWORD /d 0 /f"}
-    ]
+    ],
+    "installs":[
+      {
+        "app_name": "Google Drive", 
+        "app_instructions": "$URL = \"https://dl.google.com/drive-file-stream/GoogleDriveSetup.exe\"\n$DOWNLOAD_DIR = (\"C:\\users\\\"+$Env:UserName+\"\\Downloads\\\")\n$OUTPUT_FILE = ($DOWNLOAD_DIR+\"GoogleDriveSetup.exe\")\n(new-object System.Net.WebClient).DownloadFile($URL, $OUTPUT_FILE)\ncmd.exe /c $OUTPUT_FILE /S\nRemove-Item $OUTPUT_FILE"
+      },
+      {
+        "app_name": "Firefox", 
+        "app_instructions": "$URL = \"https://download.mozilla.org/?product=firefox-stub&os=win&lang=en-US&attribution_code=c291cmNlPXd3dy5nb29nbGUuY29tJm1lZGl1bT1yZWZlcnJhbCZjYW1wYWlnbj0obm90IHNldCkmY29udGVudD0obm90IHNldCkmZXhwZXJpbWVudD0obm90IHNldCkmdmFyaWF0aW9uPShub3Qgc2V0KSZ1YT1jaHJvbWUmY2xpZW50X2lkPShub3Qgc2V0KSZzZXNzaW9uX2lkPShub3Qgc2V0KSZkbHNvdXJjZT1tb3pvcmc.&attribution_sig=8050a714514346fdc6eb8a04a5cf8bad6805f8964fec63b63a8e91e7962fa0f7\"\n$OUTPUT_FILE = ($DOWNLOAD_DIR+\"firefox.exe\")\n(new-object System.Net.WebClient).DownloadFile($URL, $OUTPUT_FILE)\ncmd.exe /c $OUTPUT_FILE\nRemove-Item $OUTPUT_FILE"
+      },
+      {
+        "app_name": "HP Smart", 
+        "app_instructions": "winget install 'HP Smart' --accept-source-agreements --accept-package-agreements"
+      },
+      {
+        "app_name": "Google Earth Pro", 
+        "app_instructions": "$URL = \"https://dl.google.com/tag/s/appguid%3D%7B65E60E95-0DE9-43FF-9F3F-4F7D2DFF04B5%7D%26iid%3D%7B65E60E95-0DE9-43FF-9F3F-4F7D2DFF04B5%7D%26lang%3Den%26browser%3D4%26usagestats%3D0%26appname%3DGoogle%2520Earth%2520Pro%26needsadmin%3DTrue%26brand%3DGGGE/earth/client/GoogleEarthProSetup.exe\"\n$OUTPUT_FILE = ($DOWNLOAD_DIR+\"GoogleEarthPro.exe\")\n(new-object System.Net.WebClient).DownloadFile($URL, $OUTPUT_FILE)\ncmd.exe /c $OUTPUT_FILE\nRemove-Item $OUTPUT_FILE"
+      },
+      {
+        "app_name": "ScanSnap-Home", 
+        "app_instructions": "$URL = \"https://origin.pfultd.com/downloads/ss/sshinst/w-2210/WinSSHOfflineInstaller_2_21_0.exe\"\n$OUTPUT_FILE = ($Env:TEMP + \"\\ScanSnapHome.exe\")\n\nif (-Not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] \"Administrator\")) {\n    Start-Process powershell.exe -ArgumentList \"-NoProfile -ExecutionPolicy Bypass -File `$PSCommandPath`\" -Verb RunAs\n    exit\n}\n\nInvoke-WebRequest -Uri $URL -OutFile $OUTPUT_FILE\n\n# Install requires interaction:\nStart-Process -FilePath $OUTPUT_FILE -Wait\nRemove-Item $OUTPUT_FILE"
+      },
+      {
+        "app_name": "VLC", 
+        "app_instructions": "$VLC_URL = \"https://get.videolan.org/vlc/last/win64/\"\n$GET_HTML = Invoke-WebRequest $VLC_URL\n$FILE = $GET_HTML.Links | Select-Object @{Label='href';Expression={@{$true=$_.href}[$_.href.EndsWith('win64.exe')]}} | Select-Object -ExpandProperty href\n$URL = ($VLC_URL+$FILE)\n$DOWNLOAD_DIR = (\"C:\\users\\\"+$Env:UserName+\"\\Downloads\\\")\n$OUTPUT_FILE = ($DOWNLOAD_DIR+$FILE)\n(new-object System.Net.WebClient).DownloadFile($URL, $OUTPUT_FILE)\ncmd.exe /c $OUTPUT_FILE /S\nRemove-Item $OUTPUT_FILE"
+      },
+      {
+        "app_name": "Zoom", 
+        "app_instructions": "$URL = \"https://zoom.us/client/5.17.2.29988/ZoomInstaller.exe?archType=x64\"\n$DOWNLOAD_DIR = (\"C:\\users\\\"+$Env:UserName+\"\\Downloads\\\")\n$OUTPUT_FILE = ($DOWNLOAD_DIR+\"ZoomInstaller.exe\")\n(new-object System.Net.WebClient).DownloadFile($URL, $OUTPUT_FILE)\ncmd.exe /c $OUTPUT_FILE /S\nRemove-Item $OUTPUT_FILE"
+      },
+      {
+        "app_name":"Takeflite",
+        "app_instructions": "$URL = \"https://tfinstall1cus.blob.core.windows.net/tfinstall/Takeflite%20Ops%20-%20USA.exe\"\n$DOWNLOAD_DIR = (\"C:\\users\\\"+$Env:UserName+\"\\Downloads\\\")\n$OUTPUT_FILE = ($DOWNLOAD_DIR+\"TakefliteInstaller.exe\")\n(new-object System.Net.WebClient).DownloadFile($URL, $OUTPUT_FILE)\ncmd.exe /c $OUTPUT_FILE\nRemove-Item $OUTPUT_FILE"
+      },
+      {
+        "app_name":"Slack",
+        "app_instructions": "$URL = \"https://slack.com/api/desktop.latestRelease?arch=x64&variant=exe&redirect=true\"\n$DOWNLOAD_DIR = (\"C:\\users\\\"+$Env:UserName+\"\\Downloads\\\")\n$OUTPUT_FILE = ($DOWNLOAD_DIR+\"SlackInstaller.exe\")\n(new-object System.Net.WebClient).DownloadFile($URL, $OUTPUT_FILE)\ncmd.exe /c $OUTPUT_FILE\nRemove-Item $OUTPUT_FILE"
+      },
+      {
+        "app_name":"iTunes",
+        "app_instructions": "$URL = \"https://secure-appldnld.apple.com/itunes12/001-80053-20210422-E8A3B28C-A3B2-11EB-BE07-CE1B67FC6302/iTunes64Setup.exe\"\n$DOWNLOAD_DIR = (\"C:\\users\\\"+$Env:UserName+\"\\Downloads\\\")\n$OUTPUT_FILE = ($DOWNLOAD_DIR+\"iTunesSetup.exe\")\n(new-object System.Net.WebClient).DownloadFile($URL, $OUTPUT_FILE)\ncmd.exe /c $OUTPUT_FILE /quiet\nRemove-Item $OUTPUT_FILE"
+      },
+      {
+        "app_name": "NAPS2",
+        "app_instructions": "$apiUrl = 'https://api.github.com/repos/cyanfish/naps2/releases/latest';\n$headers = @{ Accept = 'application/vnd.github.v3+json' };\n$response = Invoke-RestMethod -Uri $apiUrl -Headers $headers;\n$URL = $response.assets | Where-Object { $_.name -like '*win.exe' } | Select-Object -ExpandProperty browser_download_url;\n$DOWNLOAD_DIR = \"$($Env:USERPROFILE)\\Downloads\";\n$OUTPUT_FILE = \"$DOWNLOAD_DIR\\NAPS2Installer.exe\";\n(New-Object System.Net.WebClient).DownloadFile($URL, $OUTPUT_FILE);\nStart-Process -FilePath $OUTPUT_FILE -ArgumentList '/verysilent' -Wait\nRemove-Item $OUTPUT_FILE"
+      } ,  
+      {
+        "app_name": "Creative Cloud",
+        "app_instructions":"$URL = \"https://prod-rel-ffc-ccm.oobesaas.adobe.com/adobe-ffc-external/core/v1/wam/download?sapCode=KCCC&productName=Creative%20Cloud&os=win&guid=ca737418-3f5f-4dea-a49b-c7a934612813&contextParams=%7B%22component%22%3A%22cc-home%22%2C%22visitor_guid%22%3A%2240883834255702555452869392034574502281%22%2C%22campaign_id%22%3A%2224179%7C2021-10-cme-1%7C2023-04-kaizenSSOLoggedOut%22%2C%22browser%22%3A%22microsoft%20edge%22%2C%22context_guid%22%3A%221cbffdad-4fd3-4ff2-b527-9979ff585130%22%2C%22variation_id%22%3A%2267650%3A24179%7Ctest%3A2021-10-cme-1%7Ccontrol%3A2023-04-kaizenSSOLoggedOut%22%2C%22experience_id%22%3A%22na%3A24179%7Cna%3A2021-10-cme-1%7Cna%3A2023-04-kaizenSSOLoggedOut%22%2C%22planCodeList%22%3A%22%22%2C%22updateCCD%22%3A%22true%22%2C%22secondarySapcodeList%22%3A%22%22%2C%22Product_ID_Promoted%22%3A%22KCCC%22%2C%22contextComName%22%3A%22Organic%3ACCH%22%2C%22contextSvcName%22%3A%22NO-CCD%22%2C%22contextOrigin%22%3A%22Organic%3ACCH%22%2C%22AMCV_D6FAAFAD54CA9F560A4C98A5%2540AdobeOrg%22%3A%22-2121179033%257CMCIDTS%257C19775%257CMCMID%257C40883834255702555452869392034574502281%257CMCOPTOUT-1708563038s%257CNONE%257CvVersion%257C5.3.0%22%2C%22mid%22%3A%2278683830358016785705555370211784042657%22%2C%22aid%22%3A%22%22%2C%22AppMeasurementVersion%22%3A%222.23.0%22%2C%22kaizenTrialDuration%22%3A7%7D&wamFeature=nuj-live&environment=prod&api_key=CCHomeWeb1\"\n$DOWNLOAD_DIR = (\"C:\\users\\\"+$Env:UserName+\"\\Downloads\\\")\n$OUTPUT_FILE = ($DOWNLOAD_DIR+\"CreativeCloudSetup.exe\")\n(new-object System.Net.WebClient).DownloadFile($URL, $OUTPUT_FILE)\ncmd.exe /c $OUTPUT_FILE\nRemove-Item $OUTPUT_FILE"
+      },
+      {
+        "app_name": "Outlook GSuit",
+        "app_instructions":"$URL = \"https://dl.google.com/dl/google-apps-sync/x64/enterprise_gsync.msi\"\n$DOWNLOAD_DIR = (\"C:\\users\\\"+$Env:UserName+\"\\Downloads\\\")\n$OUTPUT_FILE = ($DOWNLOAD_DIR+\"gsyncSetup.msi\")\n(new-object System.Net.WebClient).DownloadFile($URL, $OUTPUT_FILE)\ncmd.exe /c $OUTPUT_FILE /passive\nRemove-Item $OUTPUT_FILE"
+      },
+      {
+        "app_name": "Grammarly",
+        "app_instructions":"$URL = \"https://download-windows.grammarly.com/new/w/GrammarlyInstaller.exe?browserName=chrome&containerId=mzrl8grebg5f0eo2&state=0Yk0i\"\n$DOWNLOAD_DIR = (\"C:\\users\\\"+$Env:UserName+\"\\Downloads\\\")\n$OUTPUT_FILE = ($DOWNLOAD_DIR+\"grammarlySetup.exe\")\n(new-object System.Net.WebClient).DownloadFile($URL, $OUTPUT_FILE)\ncmd.exe /c $OUTPUT_FILE\nRemove-Item $OUTPUT_FILE"
+      },
+      {
+        "app_name": "Garmin Express",
+        "app_instructions":"$URL = \"https://download.garmin.com/omt/express/GarminExpress.exe\"\n$DOWNLOAD_DIR = (\"C:\\users\\\"+$Env:UserName+\"\\Downloads\\\")\n$OUTPUT_FILE = ($DOWNLOAD_DIR+\"garminExpress.exe\")\n(new-object System.Net.WebClient).DownloadFile($URL, $OUTPUT_FILE)\ncmd.exe /c $OUTPUT_FILE /s\nRemove-Item $OUTPUT_FILE"
+      },
+      {
+        "app_name": "Dropbox",
+        "app_instructions":"$URL = \"https://www.dropbox.com/download?os=win&plat=win&ref=edshelf&rtoken=SaaETcEFebSH6Qk%2BeA44TpJiWvDJbOo1aGRSYpaMGjQ%3D\"\n$DOWNLOAD_DIR = (\"C:\\users\\\"+$Env:UserName+\"\\Downloads\\\")\n$OUTPUT_FILE = ($DOWNLOAD_DIR+\"dropboxInstaller.exe\")\n(new-object System.Net.WebClient).DownloadFile($URL, $OUTPUT_FILE)\ncmd.exe /c $OUTPUT_FILE /s\nRemove-Item $OUTPUT_FILE"
+      },
+      {
+        "app_name":"PowerChute Serial Shutdown",
+        "app_instructions":"$URL = \"https://download.schneider-electric.com/files?p_enDocType=Software+-+Release&p_File_Name=pcss.zip&p_Doc_Ref=SPD_PCSS10_WW_EN\"\n$DOWNLOAD_DIR = (\"C:\\users\\\"+$Env:UserName+\"\\Downloads\\\")\n$OUTPUT_FILE = ($DOWNLOAD_DIR+\"pcss.zip\")\n(new-object System.Net.WebClient).DownloadFile($URL, $OUTPUT_FILE)\nExpand-Archive -Path $OUTPUT_FILE -DestinationPath $DOWNLOAD_DIR -Force\n$INI_PATH = ($DOWNLOAD_DIR+\"silentInstall.ini\")\n$INI_CONTENT = Get-Content $INI_PATH\n$INI_CONTENT = $INI_CONTENT -replace \"Username=\", \"Username=hgscript\"\n$INI_CONTENT = $INI_CONTENT -replace \"Password=\", \"Password=hg4dmIn@ak\"\nSet-Content $INI_PATH $INI_CONTENT\n$PCSS_SETUP = ($DOWNLOAD_DIR+\"pcsssetup.exe\")\ncmd.exe /c $PCSS_SETUP /S /F\nrm $OUTPUT_FILE\nrm $INI_PATH\nrm $PCSS_SETUP"
+      }
+      ]
   }
   
